@@ -11,15 +11,6 @@ using System.Windows.Forms;
 namespace Kolhoz_TTL_Changer
 {
 
-    //TTL   Операционная система
-    //54	FreeBSD / BSD
-    //64	Linux
-    //128	Windows
-    //255	Cisco / Solaris
-    //65    Android
-    //65    IOS
-    //130   Lumia
-
     public partial class Form1 : Form
     {
         public Form1()
@@ -47,7 +38,8 @@ namespace Kolhoz_TTL_Changer
         //Info
         private void button3_Click(object sender, EventArgs e)
         {
-
+            InfoForm info = new InfoForm();
+            info.ShowDialog();
         }
     }
 }
