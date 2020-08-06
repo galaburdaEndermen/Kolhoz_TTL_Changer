@@ -27,10 +27,8 @@ namespace Kolhoz_TTL_Changer
                 startInfo.Verb = "runas";
                 startInfo.Arguments = "restart";
                 Process.Start(startInfo);
-                //Application.Exit();
 
                 Process.GetCurrentProcess().Kill();
-                //this.Close();
             }
         }
 
@@ -61,20 +59,32 @@ namespace Kolhoz_TTL_Changer
 
         private bool ChangeTTL(int value)
         {
-            switch (bits)
+            string key1 = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters";
+            string key2 = "HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\Tcpip6\\Parameters";
+            string valueName = "DefaultTTL";
+
+            try
             {
-                case 32:
-                    MessageBox.Show("32");
-                    break;
-                case 64:
-                    MessageBox.Show("64");
-                    break;
-                default:
-                    MessageBox.Show("System instruction set recognition error!");
-                    break;
+                switch (bits)
+                {
+                    case 32:
+                        Microsoft.Win32.Registry.SetValue(key1, valueName, value, Microsoft.Win32.RegistryValueKind.DWord);
+                        Microsoft.Win32.Registry.SetValue(key2, valueName, value, Microsoft.Win32.RegistryValueKind.DWord);
+                        return true;
+                    case 64:
+                        Microsoft.Win32.Registry.SetValue(key1, valueName, value, Microsoft.Win32.RegistryValueKind.QWord);
+                        Microsoft.Win32.Registry.SetValue(key2, valueName, value, Microsoft.Win32.RegistryValueKind.QWord);
+                        return true;
+                    default:
+                        MessageBox.Show("System instruction set recognition error!");
+                        return false;
+                }
+            }
+            catch (Exception)
+            {
+                return false;
             }
 
-            return false;
         }
 
         //Change
@@ -85,7 +95,8 @@ namespace Kolhoz_TTL_Changer
             {
                 if (ChangeTTL(value))
                 {
-                    MessageBox.Show("Success");
+                    SuccessForm success = new SuccessForm();
+                    success.ShowDialog();
                 }
                 else
                 {
@@ -103,7 +114,8 @@ namespace Kolhoz_TTL_Changer
         {
             if (ChangeTTL(128))
             {
-                MessageBox.Show("Success");
+                SuccessForm success = new SuccessForm();
+                success.ShowDialog();
             }
             else
             {
