@@ -23,16 +23,44 @@ namespace Kolhoz_TTL_Changer
 
         }
 
+        private bool ChangeTTL(int value)
+        {
+            MessageBox.Show(value.ToString());
+            return false;
+        }
+
         //Change
         private void button1_Click(object sender, EventArgs e)
         {
-
+            int value;
+            if (TextBox.Text != "" && int.TryParse(TextBox.Text, out value))
+            {
+                if (ChangeTTL(value))
+                {
+                    MessageBox.Show("Success");
+                }
+                else
+                {
+                    MessageBox.Show("Something went wrong!");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Input error!");
+            }
         }
 
         //Reset
         private void button2_Click(object sender, EventArgs e)
         {
-
+            if (ChangeTTL(128))
+            {
+                MessageBox.Show("Success");
+            }
+            else
+            {
+                MessageBox.Show("Something went wrong!");
+            }
         }
 
         //Info
